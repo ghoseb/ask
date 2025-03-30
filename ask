@@ -1,2 +1,15 @@
-#!/usr/bin/env sh
-uv run ask.py "$@"
+#!/bin/bash
+
+get_script_path() {
+    SOURCE="${BASH_SOURCE[0]}"
+    while [ -h "$SOURCE" ]; do
+        DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+        SOURCE="$(readlink "$SOURCE")"
+        [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+    done
+    cd -P "$( dirname "$SOURCE" )" && pwd
+}
+
+SCRIPT_PATH="$(get_script_path)"
+
+uv run "$SCRIPT_PATH/ask.py" "$@"
